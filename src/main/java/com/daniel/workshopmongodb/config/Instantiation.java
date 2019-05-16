@@ -3,6 +3,7 @@ package com.daniel.workshopmongodb.config;
 import com.daniel.workshopmongodb.domain.Post;
 import com.daniel.workshopmongodb.domain.User;
 import com.daniel.workshopmongodb.dto.AuthorDTO;
+import com.daniel.workshopmongodb.dto.CommentDTO;
 import com.daniel.workshopmongodb.repository.PostRepository;
 import com.daniel.workshopmongodb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class Instantiation implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        SimpleDateFormat sd= new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
         sd.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         userRepository.deleteAll();
@@ -35,18 +36,25 @@ public class Instantiation implements CommandLineRunner {
         User alex = new User(null, "Alex Green", "alex@gmail.com");
         User bob = new User(null, "Bob Grey", "bob@gmail.com");
 
-        userRepository.saveAll(Arrays.asList(maria,alex,bob));
+        userRepository.saveAll(Arrays.asList(maria, alex, bob));
 
 
-        Post post1= new Post(null, sd.parse("21/08/2018"), "Partiu Viagem",
-                "Vou viajar para São Paulo abraços!",new AuthorDTO(maria));
+        Post post1 = new Post(null, sd.parse("21/08/2018"), "Partiu Viagem",
+                "Vou viajar para São Paulo abraços!", new AuthorDTO(maria));
 
-        Post post2=new Post(null, sd.parse("23/08/2018"), "Bom dia",
+        Post post2 = new Post(null, sd.parse("23/08/2018"), "Bom dia",
                 "Acordei feliz hoje!", new AuthorDTO(maria));
 
-        postRepository.saveAll(Arrays.asList(post1,post2));
+        CommentDTO comment1 = new CommentDTO("Boa Viagem mano!!", sd.parse("21/03/2018"), new AuthorDTO(alex));
+        CommentDTO comment2 = new CommentDTO("Aproveite !!", sd.parse("22/03/2018"), new AuthorDTO(bob));
+        CommentDTO comment3 = new CommentDTO("Tenha uma otima viagem !!", sd.parse("23/03/2018"), new AuthorDTO(alex));
 
-        maria.getPosts().addAll(Arrays.asList(post1,post2));
+        post1.getComments().addAll(Arrays.asList(comment1, comment2));
+        post2.getComments().add(comment3);
+
+        postRepository.saveAll(Arrays.asList(post1, post2));
+
+        maria.getPosts().addAll(Arrays.asList(post1, post2));
         userRepository.save(maria);
     }
 }
