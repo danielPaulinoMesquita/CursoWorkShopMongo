@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Document
+@Document(collection="user")
 public class User implements Serializable {
 
     @Id

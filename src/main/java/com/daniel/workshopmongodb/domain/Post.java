@@ -76,7 +76,7 @@ public class Post implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return id.equals(post.id);
+        return Objects.equals(id, post.id);
     }
 
     @Override

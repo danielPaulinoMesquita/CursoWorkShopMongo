@@ -24,12 +24,12 @@ public class Instantiation implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        SimpleDateFormat sd= new SimpleDateFormat("dd/MM/yyyy");
+        sd.setTimeZone(TimeZone.getTimeZone("GMT"));
+
         userRepository.deleteAll();
         postRepository.deleteAll();
 
-
-        SimpleDateFormat sd= new SimpleDateFormat("dd/MM/yyyy");
-        sd.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         User maria = new User(null, "Maria Brown", "maria@gmail.com");
         User alex = new User(null, "Alex Green", "alex@gmail.com");
