@@ -2,6 +2,7 @@ package com.daniel.workshopmongodb.config;
 
 import com.daniel.workshopmongodb.domain.Post;
 import com.daniel.workshopmongodb.domain.User;
+import com.daniel.workshopmongodb.dto.AuthorDTO;
 import com.daniel.workshopmongodb.repository.PostRepository;
 import com.daniel.workshopmongodb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class Instantiation implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         userRepository.deleteAll();
+        postRepository.deleteAll();
+
 
         SimpleDateFormat sd= new SimpleDateFormat("dd/MM/yyyy");
         sd.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -32,14 +35,15 @@ public class Instantiation implements CommandLineRunner {
         User alex = new User(null, "Alex Green", "alex@gmail.com");
         User bob = new User(null, "Bob Grey", "bob@gmail.com");
 
+        userRepository.saveAll(Arrays.asList(maria,alex,bob));
+
+
         Post post1= new Post(null, sd.parse("21/08/2018"), "Partiu Viagem",
-                "Vou viajar para São Paulo abraços!",maria);
+                "Vou viajar para São Paulo abraços!",new AuthorDTO(maria));
 
         Post post2=new Post(null, sd.parse("23/08/2018"), "Bom dia",
-                "Acordei feliz hoje!",maria);
+                "Acordei feliz hoje!", new AuthorDTO(maria));
 
-
-        userRepository.saveAll(Arrays.asList(maria,alex,bob));
         postRepository.saveAll(Arrays.asList(post1,post2));
     }
 }
